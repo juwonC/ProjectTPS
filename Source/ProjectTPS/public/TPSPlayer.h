@@ -32,4 +32,10 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category = Camera)
 	class UCameraComponent* tpsCamComp;
+
+	// LeftRight Rotation Input
+	void Turn(float value);
+
+	// UpDown Rotation Input
+	void LookUp(float value);
 };
