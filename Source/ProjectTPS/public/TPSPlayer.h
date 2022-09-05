@@ -38,4 +38,22 @@ public:
 
 	// UpDown Rotation Input
 	void LookUp(float value);
+
+	// Speed
+	UPROPERTY(EditAnywhere, Category = PlayerSetting)
+	float walkSpeed = 600;
+
+	// Direction
+	FVector direction;
+
+	// Horizontal Move Input Event
+	void InputHorizontal(float value);
+
+	// Vertical Move Input Event
+	void InputVertical(float value);
+
+	// Jump Input Event
+	void InputJump();
+
+	void Move();
 };
