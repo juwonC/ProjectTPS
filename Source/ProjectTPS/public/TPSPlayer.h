@@ -56,4 +56,14 @@ public:
 	void InputJump();
 
 	void Move();
+
+	// Gun SkeletalMesh
+	UPROPERTY(VisibleAnyWhere, Category = GunMesh)
+	class USkeletalMeshComponent* gunMeshComp;
+
+	// Bullet Factory
+	UPROPERTY(EditDefaultsOnly, Category = BulletFactory)
+	TSubclassOf<class ABullet> bulletFactory;
+
+	void InputFire();
 };
