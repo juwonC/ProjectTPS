@@ -86,4 +86,7 @@ public:
 
 	class UUserWidget* _sniperUI;
 
+	// Bullet Effect
+	UPROPERTY(EditAnyWhere, Category = BulletEffect)
+	class UParticleSystem* bulletEffectFactory;
 };

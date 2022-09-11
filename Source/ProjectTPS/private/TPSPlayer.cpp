@@ -6,6 +6,7 @@
 #include <GameFramework/SpringArmComponent.h>
 #include <Camera/CameraComponent.h>
 #include <Blueprint/UserWidget.h>
+#include <Kismet/GameplayStatics.h>
 
 // Sets default values
 ATPSPlayer::ATPSPlayer()
@@ -150,8 +151,35 @@ void ATPSPlayer::Move()
 
 void ATPSPlayer::InputFire()
 {
-	FTransform firePosition = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
-	GetWorld()->SpawnActor<ABullet>(bulletFactory, firePosition);
+	if (bUsingGrenadeGun)
+	{
+		FTransform firePosition = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
+		GetWorld()->SpawnActor<ABullet>(bulletFactory, firePosition);
+	}
+	else
+	{
+		// LineTrace Start Position
+		FVector startPos = tpsCamComp->GetComponentLocation();
+		// LineTrace End Position
+		FVector endPos = tpsCamComp->GetComponentLocation() + tpsCamComp->GetForwardVector() * 5000;
+		// Collision Info Variable
+		FHitResult hitInfo;
+		// Collision Option Variable
+		FCollisionQueryParams params;
+		// Ignore player Collision
+		params.AddIgnoredActor(this);
+
+		// Detect LineTrace Collision using Channel Filter
+		bool bHit = GetWorld()->LineTraceSingleByChannel(hitInfo, startPos, endPos, ECC_Visibility, params);
+
+		if (bHit)
+		{
+			// Collision Effect
+			FTransform bulletTrans;
+			bulletTrans.SetLocation(hitInfo.ImpactPoint);
+			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), bulletEffectFactory, bulletTrans);
+		}
+	}
 }
 
 void ATPSPlayer::ChangeToGrenadeGun()
