@@ -30,7 +30,7 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = Camera)
 	class USpringArmComponent* springArmComp;
 
-	UPROPERTY(VisibleAnywhere, Category = Camera)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 	class UCameraComponent* tpsCamComp;
 
 	// LeftRight Rotation Input
@@ -71,9 +71,19 @@ public:
 	UPROPERTY(VisibleAnyWhere, Category = GunMesh)
 	class UStaticMeshComponent* sniperGunComp;
 
-	// Check Using GrenadeGun
+	// Switch Guns
 	bool bUsingGrenadeGun = true;
 
 	void ChangeToGrenadeGun();
 	void ChangeToSniperGun();
+
+	// Sniper Mode
+	void SniperAim();
+	bool bSniperAim = false;
+
+	UPROPERTY(EditDefaultsOnly, Category = SniperUI)
+	TSubclassOf<class UUserWidget> sniperUIFactory;
+
+	class UUserWidget* _sniperUI;
+
 };
