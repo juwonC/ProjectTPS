@@ -37,4 +37,10 @@ public:
 	class UStaticMeshComponent* bodyMeshComp;
 
 	void Die();
+
+	// bullet velocity
+	UPROPERTY(EditAnyWhere, Category = Settings)
+	float speed = 5000;
+
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 };

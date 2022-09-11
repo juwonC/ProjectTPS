@@ -74,3 +74,12 @@ void ABullet::Die()
 	Destroy();
 }
 
+void ABullet::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+{
+	if (PropertyChangedEvent.GetPropertyName() == TEXT("speed"))
+	{
+		movementComp->InitialSpeed = speed;
+		movementComp->MaxSpeed = speed;
+	}
+}
+
