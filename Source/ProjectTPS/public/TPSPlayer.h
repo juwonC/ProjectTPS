@@ -77,7 +77,7 @@ public:
 	void ChangeToGrenadeGun();
 	void ChangeToSniperGun();
 
-	// Sniper Mode
+	// Sniper Mode UI
 	void SniperAim();
 	bool bSniperAim = false;
 
@@ -89,4 +89,10 @@ public:
 	// Bullet Effect
 	UPROPERTY(EditAnyWhere, Category = BulletEffect)
 	class UParticleSystem* bulletEffectFactory;
+
+	// Crosshair UI
+	UPROPERTY(EditDefaultsOnly, Category = SniperUI)
+	TSubclassOf<class UUserWidget> crosshairUIFactory;
+
+	class UUserWidget* _crosshairUI;
 };

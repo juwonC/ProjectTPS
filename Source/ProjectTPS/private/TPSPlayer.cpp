@@ -71,8 +71,13 @@ void ATPSPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	// Create UI Widget Instance
+	// Create Sniper Mode UI Widget Instance
 	_sniperUI = CreateWidget(GetWorld(), sniperUIFactory);
+
+	// Create Crosshair UI Widget Instance
+	_crosshairUI = CreateWidget(GetWorld(), crosshairUIFactory);
+	// Register Crosshair UI
+	_crosshairUI->AddToViewport();
 
 	// Set Default Gun
 	ChangeToSniperGun();
@@ -178,6 +183,15 @@ void ATPSPlayer::InputFire()
 			FTransform bulletTrans;
 			bulletTrans.SetLocation(hitInfo.ImpactPoint);
 			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), bulletEffectFactory, bulletTrans);
+
+			// Hit Actor
+			auto hitComp = hitInfo.GetComponent();
+			if (hitComp && hitComp->IsSimulatingPhysics())
+			{
+				FVector force = -hitInfo.ImpactNormal * hitComp->GetMass() * 500000;
+
+				hitComp->AddForce(force);
+			}
 		}
 	}
 }
@@ -214,6 +228,8 @@ void ATPSPlayer::SniperAim()
 		_sniperUI->AddToViewport();
 		// Set Field of View
 		tpsCamComp->SetFieldOfView(45.0f);
+		// Remove Crosshair UI
+		_crosshairUI->RemoveFromParent();
 	}
 	// Released Process
 	else
@@ -221,6 +237,8 @@ void ATPSPlayer::SniperAim()
 		bSniperAim = false;
 		_sniperUI->RemoveFromParent();
 		tpsCamComp->SetFieldOfView(90.0f);
+		// Register Crosshair UI
+		_crosshairUI->AddToViewport();
 	}
 }
 
