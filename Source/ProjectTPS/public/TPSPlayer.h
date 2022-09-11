@@ -66,4 +66,14 @@ public:
 	TSubclassOf<class ABullet> bulletFactory;
 
 	void InputFire();
+
+	// Add Sniper StaticMesh
+	UPROPERTY(VisibleAnyWhere, Category = GunMesh)
+	class UStaticMeshComponent* sniperGunComp;
+
+	// Check Using GrenadeGun
+	bool bUsingGrenadeGun = true;
+
+	void ChangeToGrenadeGun();
+	void ChangeToSniperGun();
 };
