@@ -65,4 +65,19 @@ public:
 	// Attack Delay
 	UPROPERTY(EditAnywhere, Category=FSM)
 	float attackDelayTime = 2.0f;
+
+	// Damaged Alarm Event
+	void OnDamageProcess();
+
+	// HP
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category=FSM)
+	int32 hp = 3;
+
+	// Damaged Delay Time
+	UPROPERTY(EditAnywhere, Category=FSM)
+	float damageDelayTime = 2.0f;
+
+	// Falling Down Speed
+	UPROPERTY(EditAnywhere, Category=FSM)
+	float dieSpeed = 50.0f;
 };

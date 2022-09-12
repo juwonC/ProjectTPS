@@ -3,6 +3,7 @@
 
 #include "TPSPlayer.h"
 #include "Bullet.h"
+#include "EnemyFSM.h"
 #include <GameFramework/SpringArmComponent.h>
 #include <Camera/CameraComponent.h>
 #include <Blueprint/UserWidget.h>
@@ -191,6 +192,13 @@ void ATPSPlayer::InputFire()
 				FVector force = -hitInfo.ImpactNormal * hitComp->GetMass() * 500000;
 
 				hitComp->AddForce(force);
+			}
+
+			auto enemy = hitInfo.GetActor()->GetDefaultSubobjectByName(TEXT("FSM"));
+			if (enemy)
+			{
+				auto enemyFSM = Cast<UEnemyFSM>(enemy);
+				enemyFSM->OnDamageProcess();
 			}
 		}
 	}
