@@ -40,7 +40,7 @@ public:
 	void LookUp(float value);
 
 	// Speed
-	UPROPERTY(EditAnywhere, Category = PlayerSetting)
+	UPROPERTY(EditAnywhere, Category=PlayerSetting)
 	float walkSpeed = 600;
 
 	// Direction
@@ -58,17 +58,17 @@ public:
 	void Move();
 
 	// Gun SkeletalMesh
-	UPROPERTY(VisibleAnyWhere, Category = GunMesh)
+	UPROPERTY(VisibleAnywhere, Category=GunMesh)
 	class USkeletalMeshComponent* gunMeshComp;
 
 	// Bullet Factory
-	UPROPERTY(EditDefaultsOnly, Category = BulletFactory)
+	UPROPERTY(EditDefaultsOnly, Category=BulletFactory)
 	TSubclassOf<class ABullet> bulletFactory;
 
 	void InputFire();
 
 	// Add Sniper StaticMesh
-	UPROPERTY(VisibleAnyWhere, Category = GunMesh)
+	UPROPERTY(VisibleAnywhere, Category=GunMesh)
 	class UStaticMeshComponent* sniperGunComp;
 
 	// Switch Guns
@@ -81,17 +81,17 @@ public:
 	void SniperAim();
 	bool bSniperAim = false;
 
-	UPROPERTY(EditDefaultsOnly, Category = SniperUI)
+	UPROPERTY(EditDefaultsOnly, Category=SniperUI)
 	TSubclassOf<class UUserWidget> sniperUIFactory;
 
 	class UUserWidget* _sniperUI;
 
 	// Bullet Effect
-	UPROPERTY(EditAnyWhere, Category = BulletEffect)
+	UPROPERTY(EditAnywhere, Category=BulletEffect)
 	class UParticleSystem* bulletEffectFactory;
 
 	// Crosshair UI
-	UPROPERTY(EditDefaultsOnly, Category = SniperUI)
+	UPROPERTY(EditDefaultsOnly, Category=SniperUI)
 	TSubclassOf<class UUserWidget> crosshairUIFactory;
 
 	class UUserWidget* _crosshairUI;

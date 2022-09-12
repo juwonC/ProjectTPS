@@ -25,21 +25,21 @@ public:
 
 public:
 	// Bullet Movement Component
-	UPROPERTY(VisibleAnywhere, Category = Movement)
+	UPROPERTY(VisibleAnywhere, Category=Movement)
 	class UProjectileMovementComponent* movementComp;
 
 	// Collision Component
-	UPROPERTY(VisibleAnywhere, Category = Collision)
+	UPROPERTY(VisibleAnywhere, Category=Collision)
 	class USphereComponent* collisionComp;
 
 	// Body Mesh Component
-	UPROPERTY(VisibleAnywhere, Category = BodyMesh)
+	UPROPERTY(VisibleAnywhere, Category=BodyMesh)
 	class UStaticMeshComponent* bodyMeshComp;
 
 	void Die();
 
 	// bullet velocity
-	UPROPERTY(EditAnyWhere, Category = Settings)
+	UPROPERTY(EditAnywhere, Category=Settings)
 	float speed = 5000;
 
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
