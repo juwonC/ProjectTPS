@@ -3,6 +3,7 @@
 
 #include "PlayerAnim.h"
 #include "TPSPlayer.h"
+#include <GameFramework/CharacterMovementComponent.h>
 
 void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 {
@@ -18,7 +19,14 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 		FVector velocity = player->GetVelocity();
 		// Get Player Forward Vector
 		FVector forwardVector = player->GetActorForwardVector();
-		// Assgin value to speed
+		// Assign value to speed
 		speed = FVector::DotProduct(forwardVector, velocity);
+		// Assign LeftRight speed
+		FVector rightVector = player->GetActorRightVector();
+		direction = FVector::DotProduct(rightVector, velocity);
+
+		// Is Player in Air
+		auto movement = player->GetCharacterMovement();
+		isInAir = movement->IsFalling();
 	}
 }

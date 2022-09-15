@@ -8,6 +8,7 @@
 #include <Camera/CameraComponent.h>
 #include <Blueprint/UserWidget.h>
 #include <Kismet/GameplayStatics.h>
+#include <GameFramework/CharacterMovementComponent.h>
 
 // Sets default values
 ATPSPlayer::ATPSPlayer()
@@ -72,6 +73,9 @@ void ATPSPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	// Initial Walking Speed
+	GetCharacterMovement()->MaxWalkSpeed = walkSpeed;
+
 	// Create Sniper Mode UI Widget Instance
 	_sniperUI = CreateWidget(GetWorld(), sniperUIFactory);
 
@@ -111,6 +115,10 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	// SniperMode
 	PlayerInputComponent->BindAction(TEXT("SniperMode"), IE_Pressed, this, &ATPSPlayer::SniperAim);
 	PlayerInputComponent->BindAction(TEXT("SniperMode"), IE_Released, this, &ATPSPlayer::SniperAim);
+
+	// Running Event
+	PlayerInputComponent->BindAction(TEXT("Run"), IE_Pressed, this, &ATPSPlayer::InputRun);
+	PlayerInputComponent->BindAction(TEXT("Run"), IE_Released, this, &ATPSPlayer::InputRun);
 }
 
 void ATPSPlayer::Turn(float value)
@@ -247,6 +255,20 @@ void ATPSPlayer::SniperAim()
 		tpsCamComp->SetFieldOfView(90.0f);
 		// Register Crosshair UI
 		_crosshairUI->AddToViewport();
+	}
+}
+
+void ATPSPlayer::InputRun()
+{
+	auto movement = GetCharacterMovement();
+
+	if (movement->MaxWalkSpeed > walkSpeed)
+	{
+		movement->MaxWalkSpeed = walkSpeed;
+	}
+	else
+	{
+		movement->MaxWalkSpeed = runSpeed;
 	}
 }
 

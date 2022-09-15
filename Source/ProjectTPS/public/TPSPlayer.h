@@ -39,9 +39,13 @@ public:
 	// UpDown Rotation Input
 	void LookUp(float value);
 
-	// Speed
-	UPROPERTY(EditAnywhere, Category=PlayerSetting)
-	float walkSpeed = 600;
+	// Walking Speed
+	UPROPERTY(EditAnywhere, Category = PlayerSetting)
+		float walkSpeed = 200;
+
+	// Running Speed
+	UPROPERTY(EditAnywhere, Category = PlayerSetting)
+		float runSpeed = 600;
 
 	// Direction
 	FVector direction;
@@ -95,4 +99,7 @@ public:
 	TSubclassOf<class UUserWidget> crosshairUIFactory;
 
 	class UUserWidget* _crosshairUI;
+
+	// Running Event
+	void InputRun();
 };
