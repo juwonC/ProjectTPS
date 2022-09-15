@@ -47,24 +47,34 @@ ATPSPlayer::ATPSPlayer()
 
 	// GunComp
 	gunMeshComp = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("GunMeshComp"));
-	gunMeshComp->SetupAttachment(GetMesh());
+	gunMeshComp->SetupAttachment(GetMesh(), (TEXT("hand_rSocket")));
 
 	ConstructorHelpers::FObjectFinder<USkeletalMesh> TempGunMesh(TEXT("SkeletalMesh'/Game/FPS_Weapon_Bundle/Weapons/Meshes/AR4/SK_AR4.SK_AR4'"));
 	if (TempGunMesh.Succeeded())
 	{
+		// Assign StaticMesh Data
 		gunMeshComp->SetSkeletalMesh(TempGunMesh.Object);
-		gunMeshComp->SetRelativeLocation(FVector(-14, 52, 120));
+
+		// Adjust Location
+		gunMeshComp->SetRelativeLocation(FVector(-8.2f, 5.46f, -2.32f));
+		gunMeshComp->SetRelativeRotation(FRotator(0, 90, 0));
 	}
 
 	// SniperComp
 	sniperGunComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SniperGunComp"));
-	sniperGunComp->SetupAttachment(GetMesh());
+	sniperGunComp->SetupAttachment(GetMesh(), TEXT("hand_rSocket"));
 
 	ConstructorHelpers::FObjectFinder<UStaticMesh> TempSniperMesh(TEXT("StaticMesh'/Game/SniperGun/sniper1.sniper1'"));
 	if (TempSniperMesh.Succeeded())
 	{
+		// Assign StaticMesh Data
 		sniperGunComp->SetStaticMesh(TempSniperMesh.Object);
-		sniperGunComp->SetRelativeLocation(FVector(-22, 55, 120));
+
+		// Adjust Location
+		sniperGunComp->SetRelativeLocation(FVector(-42, 7, 1));
+		sniperGunComp->SetRelativeRotation(FRotator(0, 90, 0));
+
+		// Adjust Scale 
 		sniperGunComp->SetRelativeScale3D(FVector(0.15f));
 	}
 }
