@@ -102,4 +102,12 @@ public:
 
 	// Running Event
 	void InputRun();
+
+	// Camera Shake Blueprint Varaible
+	UPROPERTY(EditDefaultsOnly, Category=CameraMotion)
+	TSubclassOf<class UCameraShakeBase> cameraShake;
+
+	// Bullet Sound
+	UPROPERTY(EditDefaultsOnly, Category=Sound)
+	class USoundBase* bulletSound;
 };

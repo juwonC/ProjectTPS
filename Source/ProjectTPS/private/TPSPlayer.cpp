@@ -77,6 +77,13 @@ ATPSPlayer::ATPSPlayer()
 		// Adjust Scale 
 		sniperGunComp->SetRelativeScale3D(FVector(0.15f));
 	}
+
+	// Bullet Sound
+	ConstructorHelpers::FObjectFinder<USoundBase> tempSound(TEXT("SoundWave'/Game/SniperGun/Rifle.Rifle'"));
+	if (tempSound.Succeeded())
+	{
+		bulletSound = tempSound.Object;
+	}
 }
 
 // Called when the game starts or when spawned
@@ -176,6 +183,13 @@ void ATPSPlayer::Move()
 
 void ATPSPlayer::InputFire()
 {
+	// Play Bullet Sound
+	UGameplayStatics::PlaySound2D(GetWorld(), bulletSound);
+	
+	// Play Camera Shake
+	auto controller = GetWorld()->GetFirstPlayerController();
+	controller->PlayerCameraManager->StartCameraShake(cameraShake);
+	
 	// Play Fire Animation
 	auto anim = Cast<UPlayerAnim>(GetMesh()->GetAnimInstance());
 	anim->PlayAttackAnim();
