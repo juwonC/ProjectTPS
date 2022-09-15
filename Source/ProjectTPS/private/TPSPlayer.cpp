@@ -4,6 +4,7 @@
 #include "TPSPlayer.h"
 #include "Bullet.h"
 #include "EnemyFSM.h"
+#include "PlayerAnim.h"
 #include <GameFramework/SpringArmComponent.h>
 #include <Camera/CameraComponent.h>
 #include <Blueprint/UserWidget.h>
@@ -165,6 +166,10 @@ void ATPSPlayer::Move()
 
 void ATPSPlayer::InputFire()
 {
+	// Play Fire Animation
+	auto anim = Cast<UPlayerAnim>(GetMesh()->GetAnimInstance());
+	anim->PlayAttackAnim();
+
 	if (bUsingGrenadeGun)
 	{
 		FTransform firePosition = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
