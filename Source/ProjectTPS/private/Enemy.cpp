@@ -10,7 +10,7 @@ AEnemy::AEnemy()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	ConstructorHelpers::FObjectFinder<USkeletalMesh> tempMesh(TEXT("SkeletalMesh'/Game/Mannequin/Character/Mesh/SK_Mannequin_Female.SK_Mannequin_Female'"));
+	ConstructorHelpers::FObjectFinder<USkeletalMesh> tempMesh(TEXT("SkeletalMesh'/Game/ParagonMinions/Characters/Buff/Buff_Red/Meshes/Buff_Red.Buff_Red'"));
 	if (tempMesh.Succeeded())
 	{
 		GetMesh()->SetSkeletalMesh(tempMesh.Object);
@@ -18,6 +18,13 @@ AEnemy::AEnemy()
 	}
 
 	fsm = CreateDefaultSubobject<UEnemyFSM>(TEXT("FSM"));
+
+	// Assign Anim Blueprint
+	ConstructorHelpers::FClassFinder<UAnimInstance> tempClass(TEXT("AnimBlueprint'/Game/Blueprints/ABP_Enemy.ABP_Enemy_C'"));
+	if (tempClass.Succeeded())
+	{
+		GetMesh()->SetAnimInstanceClass(tempClass.Class);
+	}
 }
 
 // Called when the game starts or when spawned

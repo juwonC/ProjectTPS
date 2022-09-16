@@ -5,6 +5,7 @@
 #include "TPSPlayer.h"
 #include "Enemy.h"
 #include "ProjectTPS.h"
+#include "EnemyAnim.h"
 #include <Kismet/GameplayStatics.h>
 #include <Components/CapsuleComponent.h>
 
@@ -30,6 +31,8 @@ void UEnemyFSM::BeginPlay()
 	target = Cast<ATPSPlayer>(actor);
 	// Get Owned Object
 	me = Cast<AEnemy>(GetOwner());
+
+	anim = Cast<UEnemyAnim>(me->GetMesh()->GetAnimInstance());
 }
 
 
@@ -71,6 +74,9 @@ void UEnemyFSM::IdleState()
 		mState = EEnemyState::Move;
 		currentTime = 0.0f;
 	}
+
+	// Sync Animation
+	anim->animState = mState;
 }
 
 void UEnemyFSM::MoveState()
@@ -83,6 +89,11 @@ void UEnemyFSM::MoveState()
 	if (dir.Size() < attackRange)
 	{
 		mState = EEnemyState::Attack;
+
+		// Sync Animation
+		anim->animState = mState;
+		anim->bAttackPlay = true;
+		currentTime = attackDelayTime;
 	}
 }
 
@@ -93,12 +104,16 @@ void UEnemyFSM::AttackState()
 	{
 		PRINT_LOG(TEXT("Attack!!!"));
 		currentTime = 0.0f;
+
+		anim->bAttackPlay = true;
 	}
 
 	float distance = FVector::Distance(target->GetActorLocation(), me->GetActorLocation());
 	if (distance > attackRange)
 	{
 		mState = EEnemyState::Move;
+
+		anim->animState = mState;
 	}
 }
 
@@ -109,6 +124,8 @@ void UEnemyFSM::DamageState()
 	{
 		mState = EEnemyState::Idle;
 		currentTime = 0.0f;
+
+		anim->animState = mState;
 	}
 }
 
@@ -141,5 +158,7 @@ void UEnemyFSM::OnDamageProcess()
 		// Deactivate Capsule Collision
 		me->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
+
+	anim->animState = mState;
 }
 

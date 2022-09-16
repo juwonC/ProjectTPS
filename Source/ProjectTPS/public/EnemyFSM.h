@@ -80,4 +80,8 @@ public:
 	// Falling Down Speed
 	UPROPERTY(EditAnywhere, Category=FSM)
 	float dieSpeed = 50.0f;
+
+	// Anim Blueprint
+	UPROPERTY()
+	class UEnemyAnim* anim;
 };
