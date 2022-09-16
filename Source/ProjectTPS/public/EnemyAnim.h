@@ -25,4 +25,8 @@ public:
 	// Attack End Event
 	UFUNCTION(BlueprintCallable, Category=FSMEvent)
 	void OnEndAttackAnimation();
+
+	// Damaged Anim Event
+	UFUNCTION(BlueprintImplementableEvent, Category=FSMEvent)
+	void PlayDamageAnim(FName sectionName);
 };
