@@ -84,4 +84,8 @@ public:
 	// Anim Blueprint
 	UPROPERTY()
 	class UEnemyAnim* anim;
+
+	// AIController
+	UPROPERTY()
+	class AAIController* ai;
 };

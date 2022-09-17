@@ -8,6 +8,7 @@
 #include "EnemyAnim.h"
 #include <Kismet/GameplayStatics.h>
 #include <Components/CapsuleComponent.h>
+#include <AIController.h>
 
 // Sets default values for this component's properties
 UEnemyFSM::UEnemyFSM()
@@ -33,6 +34,9 @@ void UEnemyFSM::BeginPlay()
 	me = Cast<AEnemy>(GetOwner());
 
 	anim = Cast<UEnemyAnim>(me->GetMesh()->GetAnimInstance());
+
+	// Assign AAIController
+	ai = Cast<AAIController>(me->GetController());
 }
 
 
@@ -84,7 +88,8 @@ void UEnemyFSM::MoveState()
 	FVector destination = target->GetActorLocation();
 	FVector dir = destination - me->GetActorLocation();
 
-	me->AddMovementInput(dir.GetSafeNormal());
+	//me->AddMovementInput(dir.GetSafeNormal());
+	ai->MoveToLocation(destination);
 
 	if (dir.Size() < attackRange)
 	{
