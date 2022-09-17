@@ -29,4 +29,11 @@ public:
 	// Damaged Anim Event
 	UFUNCTION(BlueprintImplementableEvent, Category=FSMEvent)
 	void PlayDamageAnim(FName sectionName);
+
+	// Die Anim Event
+	UFUNCTION(BlueprintImplementableEvent, Category=FSMEvent)
+	void PlayDieAnim(FName sectionName);
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category=FSM)
+	bool bDieDone = false;
 };
