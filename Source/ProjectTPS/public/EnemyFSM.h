@@ -88,4 +88,9 @@ public:
 	// AIController
 	UPROPERTY()
 	class AAIController* ai;
+
+	// Patrol Random Position
+	FVector randomPos;
+
+	bool GetRandomPositionInNavMesh(FVector centerLocation, float radius, FVector& dest);
 };
