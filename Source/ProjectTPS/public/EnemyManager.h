@@ -39,4 +39,7 @@ public:
 	FTimerHandle spawnTimerHandle;
 
 	void CreateEnemy();
+
+	// Automatically Assign Spawn Points
+	void FindSpawnPoints();
 };
