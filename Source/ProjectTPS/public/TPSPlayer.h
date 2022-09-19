@@ -33,56 +33,18 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 	class UCameraComponent* tpsCamComp;
 
-
-
 	// Gun SkeletalMesh
 	UPROPERTY(VisibleAnywhere, Category=GunMesh)
 	class USkeletalMeshComponent* gunMeshComp;
-
-	// Bullet Factory
-	UPROPERTY(EditDefaultsOnly, Category=BulletFactory)
-	TSubclassOf<class ABullet> bulletFactory;
-
-	void InputFire();
 
 	// Add Sniper StaticMesh
 	UPROPERTY(VisibleAnywhere, Category=GunMesh)
 	class UStaticMeshComponent* sniperGunComp;
 
-	// Switch Guns
-	bool bUsingGrenadeGun = true;
-
-	void ChangeToGrenadeGun();
-	void ChangeToSniperGun();
-
-	// Sniper Mode UI
-	void SniperAim();
-	bool bSniperAim = false;
-
-	UPROPERTY(EditDefaultsOnly, Category=SniperUI)
-	TSubclassOf<class UUserWidget> sniperUIFactory;
-
-	class UUserWidget* _sniperUI;
-
-	// Bullet Effect
-	UPROPERTY(EditAnywhere, Category=BulletEffect)
-	class UParticleSystem* bulletEffectFactory;
-
-	// Crosshair UI
-	UPROPERTY(EditDefaultsOnly, Category=SniperUI)
-	TSubclassOf<class UUserWidget> crosshairUIFactory;
-
-	class UUserWidget* _crosshairUI;
-
-	// Camera Shake Blueprint Varaible
-	UPROPERTY(EditDefaultsOnly, Category=CameraMotion)
-	TSubclassOf<class UCameraShakeBase> cameraShake;
-
-	// Bullet Sound
-	UPROPERTY(EditDefaultsOnly, Category=Sound)
-	class USoundBase* bulletSound;
-
 public:
 	UPROPERTY(VisibleAnywhere, Category=Component)
 	class UPlayerBaseComponent* playerMove;
+
+	UPROPERTY(VisibleAnywhere, Category=Component)
+	class UPlayerBaseComponent* playerFire;
 };

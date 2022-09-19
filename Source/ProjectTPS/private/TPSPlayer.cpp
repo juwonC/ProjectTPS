@@ -1,16 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "PlayerMove.h"
 #include "TPSPlayer.h"
-#include "Bullet.h"
-#include "EnemyFSM.h"
-#include "PlayerAnim.h"
+#include "PlayerMove.h"
+#include "PlayerFire.h"
 #include <GameFramework/SpringArmComponent.h>
 #include <Camera/CameraComponent.h>
-#include <Blueprint/UserWidget.h>
-#include <Kismet/GameplayStatics.h>
-#include <GameFramework/CharacterMovementComponent.h>
 
 // Sets default values
 ATPSPlayer::ATPSPlayer()
@@ -79,14 +74,8 @@ ATPSPlayer::ATPSPlayer()
 		sniperGunComp->SetRelativeScale3D(FVector(0.15f));
 	}
 
-	// Bullet Sound
-	ConstructorHelpers::FObjectFinder<USoundBase> tempSound(TEXT("SoundWave'/Game/SniperGun/Rifle.Rifle'"));
-	if (tempSound.Succeeded())
-	{
-		bulletSound = tempSound.Object;
-	}
-
 	playerMove = CreateDefaultSubobject<UPlayerMove>(TEXT("PlayerMove"));
+	playerFire = CreateDefaultSubobject<UPlayerFire>(TEXT("PlayerFire"));
 }
 
 // Called when the game starts or when spawned
@@ -94,22 +83,13 @@ void ATPSPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// Create Sniper Mode UI Widget Instance
-	_sniperUI = CreateWidget(GetWorld(), sniperUIFactory);
-
-	// Create Crosshair UI Widget Instance
-	_crosshairUI = CreateWidget(GetWorld(), crosshairUIFactory);
-	// Register Crosshair UI
-	_crosshairUI->AddToViewport();
-
-	// Set Default Gun
-	ChangeToSniperGun();
 }
 
 // Called every frame
 void ATPSPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 }
 
 // Called to bind functionality to input
@@ -118,120 +98,5 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	playerMove->SetupInputBinding(PlayerInputComponent);
-
-	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &ATPSPlayer::InputFire);
-
-	// Switch Guns
-	PlayerInputComponent->BindAction(TEXT("GrenadeGun"), IE_Pressed, this, &ATPSPlayer::ChangeToGrenadeGun);
-	PlayerInputComponent->BindAction(TEXT("SniperGun"), IE_Pressed, this, &ATPSPlayer::ChangeToSniperGun);
-
-	// SniperMode
-	PlayerInputComponent->BindAction(TEXT("SniperMode"), IE_Pressed, this, &ATPSPlayer::SniperAim);
-	PlayerInputComponent->BindAction(TEXT("SniperMode"), IE_Released, this, &ATPSPlayer::SniperAim);
-}
-
-void ATPSPlayer::InputFire()
-{
-	// Play Bullet Sound
-	UGameplayStatics::PlaySound2D(GetWorld(), bulletSound);
-	
-	// Play Camera Shake
-	auto controller = GetWorld()->GetFirstPlayerController();
-	controller->PlayerCameraManager->StartCameraShake(cameraShake);
-	
-	// Play Fire Animation
-	auto anim = Cast<UPlayerAnim>(GetMesh()->GetAnimInstance());
-	anim->PlayAttackAnim();
-
-	if (bUsingGrenadeGun)
-	{
-		FTransform firePosition = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
-		GetWorld()->SpawnActor<ABullet>(bulletFactory, firePosition);
-	}
-	else
-	{
-		// LineTrace Start Position
-		FVector startPos = tpsCamComp->GetComponentLocation();
-		// LineTrace End Position
-		FVector endPos = tpsCamComp->GetComponentLocation() + tpsCamComp->GetForwardVector() * 5000;
-		// Collision Info Variable
-		FHitResult hitInfo;
-		// Collision Option Variable
-		FCollisionQueryParams params;
-		// Ignore player Collision
-		params.AddIgnoredActor(this);
-
-		// Detect LineTrace Collision using Channel Filter
-		bool bHit = GetWorld()->LineTraceSingleByChannel(hitInfo, startPos, endPos, ECC_Visibility, params);
-
-		if (bHit)
-		{
-			// Collision Effect
-			FTransform bulletTrans;
-			bulletTrans.SetLocation(hitInfo.ImpactPoint);
-			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), bulletEffectFactory, bulletTrans);
-
-			// Hit Actor
-			auto hitComp = hitInfo.GetComponent();
-			if (hitComp && hitComp->IsSimulatingPhysics())
-			{
-				FVector force = -hitInfo.ImpactNormal * hitComp->GetMass() * 500000;
-
-				hitComp->AddForce(force);
-			}
-
-			auto enemy = hitInfo.GetActor()->GetDefaultSubobjectByName(TEXT("FSM"));
-			if (enemy)
-			{
-				auto enemyFSM = Cast<UEnemyFSM>(enemy);
-				enemyFSM->OnDamageProcess();
-			}
-		}
-	}
-}
-
-void ATPSPlayer::ChangeToGrenadeGun()
-{
-	bUsingGrenadeGun = true;
-
-	sniperGunComp->SetVisibility(false);
-	gunMeshComp->SetVisibility(true);
-}
-
-void ATPSPlayer::ChangeToSniperGun()
-{
-	bUsingGrenadeGun = false;
-
-	sniperGunComp->SetVisibility(true);
-	gunMeshComp->SetVisibility(false);
-}
-
-void ATPSPlayer::SniperAim()
-{
-	if (bUsingGrenadeGun)
-	{
-		return;
-	}
-
-	// Pressed Input Process
-	if (bSniperAim == false)
-	{
-		// Activate Sniper Mode
-		bSniperAim = true;
-		// Add SniperUI
-		_sniperUI->AddToViewport();
-		// Set Field of View
-		tpsCamComp->SetFieldOfView(45.0f);
-		// Remove Crosshair UI
-		_crosshairUI->RemoveFromParent();
-	}
-	// Released Process
-	else
-	{
-		bSniperAim = false;
-		_sniperUI->RemoveFromParent();
-		tpsCamComp->SetFieldOfView(90.0f);
-		// Register Crosshair UI
-		_crosshairUI->AddToViewport();
-	}
+	playerFire->SetupInputBinding(PlayerInputComponent);	
 }
