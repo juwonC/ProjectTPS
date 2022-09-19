@@ -33,33 +33,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 	class UCameraComponent* tpsCamComp;
 
-	// LeftRight Rotation Input
-	void Turn(float value);
 
-	// UpDown Rotation Input
-	void LookUp(float value);
-
-	// Walking Speed
-	UPROPERTY(EditAnywhere, Category = PlayerSetting)
-		float walkSpeed = 200;
-
-	// Running Speed
-	UPROPERTY(EditAnywhere, Category = PlayerSetting)
-		float runSpeed = 600;
-
-	// Direction
-	FVector direction;
-
-	// Horizontal Move Input Event
-	void InputHorizontal(float value);
-
-	// Vertical Move Input Event
-	void InputVertical(float value);
-
-	// Jump Input Event
-	void InputJump();
-
-	void Move();
 
 	// Gun SkeletalMesh
 	UPROPERTY(VisibleAnywhere, Category=GunMesh)
@@ -100,9 +74,6 @@ public:
 
 	class UUserWidget* _crosshairUI;
 
-	// Running Event
-	void InputRun();
-
 	// Camera Shake Blueprint Varaible
 	UPROPERTY(EditDefaultsOnly, Category=CameraMotion)
 	TSubclassOf<class UCameraShakeBase> cameraShake;
@@ -110,4 +81,8 @@ public:
 	// Bullet Sound
 	UPROPERTY(EditDefaultsOnly, Category=Sound)
 	class USoundBase* bulletSound;
+
+public:
+	UPROPERTY(VisibleAnywhere, Category=Component)
+	class UPlayerBaseComponent* playerMove;
 };
