@@ -18,6 +18,7 @@ public:
 	// Sets default values for this component's properties
 	UPlayerBaseComponent();
 
+	virtual void InitializeComponent() override;
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	// Input Mapping

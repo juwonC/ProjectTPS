@@ -75,7 +75,7 @@ ATPSPlayer::ATPSPlayer()
 	}
 
 	playerMove = CreateDefaultSubobject<UPlayerMove>(TEXT("PlayerMove"));
-	playerFire = CreateDefaultSubobject<UPlayerFire>(TEXT("PlayerFire"));
+	//playerFire = CreateDefaultSubobject<UPlayerFire>(TEXT("PlayerFire"));
 }
 
 // Called when the game starts or when spawned
@@ -97,6 +97,8 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	playerMove->SetupInputBinding(PlayerInputComponent);
-	playerFire->SetupInputBinding(PlayerInputComponent);	
+	onInputBindingDelegate.Broadcast(PlayerInputComponent);
+
+	//playerMove->SetupInputBinding(PlayerInputComponent);
+	//playerFire->SetupInputBinding(PlayerInputComponent);
 }
