@@ -52,4 +52,17 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category=Component)
 	class UPlayerBaseComponent* playerFire;
+
+	// Current HP
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category=Health)
+	int32 hp;
+	// Initialize HP
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category=Health)
+	int32 initialHP = 10;
+
+	UFUNCTION(BlueprintCallable, Category=Health)
+	void OnHitEvent();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category=Health)
+	void OnGameOver();
 };
