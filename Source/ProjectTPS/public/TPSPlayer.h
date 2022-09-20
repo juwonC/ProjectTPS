@@ -65,4 +65,8 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category=Health)
 	void OnGameOver();
+
+	// Switching Guns
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category=Health)
+	void OnUsingGrenade(bool isGrenade);
 };

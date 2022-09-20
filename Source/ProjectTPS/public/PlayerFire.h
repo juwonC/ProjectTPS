@@ -50,26 +50,26 @@ public:
 
 	// Snuper UI Widget Factory
 	UPROPERTY(EditDefaultsOnly, Category = SniperUI)
-		TSubclassOf<class UUserWidget> sniperUIFactory;
+	TSubclassOf<class UUserWidget> sniperUIFactory;
 
 	// Sniper UI Widget Instance
 	class UUserWidget* _sniperUI;
 
 	// Bullet Effect
 	UPROPERTY(EditAnywhere, Category = BulletEffect)
-		class UParticleSystem* bulletEffectFactory;
+	class UParticleSystem* bulletEffectFactory;
 
 	// Crosshair UI
 	UPROPERTY(EditDefaultsOnly, Category = SniperUI)
-		TSubclassOf<class UUserWidget> crosshairUIFactory;
+	TSubclassOf<class UUserWidget> crosshairUIFactory;
 
 	class UUserWidget* _crosshairUI;
 
 	// Camera Shake Blueprint Varaible
 	UPROPERTY(EditDefaultsOnly, Category = CameraMotion)
-		TSubclassOf<class UCameraShakeBase> cameraShake;
+	TSubclassOf<class UCameraShakeBase> cameraShake;
 
 	// Bullet Sound
 	UPROPERTY(EditDefaultsOnly, Category = Sound)
-		class USoundBase* bulletSound;
+	class USoundBase* bulletSound;
 };
