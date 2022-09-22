@@ -64,7 +64,7 @@ public:
 
 	// Attack Delay
 	UPROPERTY(EditAnywhere, Category=FSM)
-	float attackDelayTime = 2.0f;
+	float attackDelayTime = 1.0f;
 
 	// Damaged Alarm Event
 	void OnDamageProcess();
@@ -75,7 +75,7 @@ public:
 
 	// Damaged Delay Time
 	UPROPERTY(EditAnywhere, Category=FSM)
-	float damageDelayTime = 2.0f;
+	float damageDelayTime = 1.0f;
 
 	// Falling Down Speed
 	UPROPERTY(EditAnywhere, Category=FSM)
