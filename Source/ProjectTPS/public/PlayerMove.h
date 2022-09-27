@@ -32,11 +32,11 @@ public:
 public:
 	// Walking Speed
 	UPROPERTY(EditAnywhere, Category = PlayerSetting)
-		float walkSpeed = 200;
+	float walkSpeed = 200;
 
 	// Running Speed
 	UPROPERTY(EditAnywhere, Category = PlayerSetting)
-		float runSpeed = 600;
+	float runSpeed = 600;
 
 	// Direction
 	FVector direction;
