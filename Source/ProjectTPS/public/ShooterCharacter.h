@@ -27,9 +27,13 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
-	void Turn(float axisValue);
+	//void Turn(float axisValue);
 	//void LookUp(float axisValue);
+	void TurnRate(float axisValue);
+	void LookUpRate(float axisValue);
 	void InputHorizontal(float axisValue);
 	void InputVertical(float axisValue);
-	void InputJump();
+
+	UPROPERTY(EditAnywhere)
+	float rotationRate = 10;
 };
