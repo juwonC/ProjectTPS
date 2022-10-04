@@ -3,6 +3,7 @@
 
 #include "Guns.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AGuns::AGuns()
@@ -27,6 +28,13 @@ AGuns::AGuns()
 		rifleMesh->SetRelativeLocation(FVector(-8.2f, 5.46f, -2.32f));
 		rifleMesh->SetRelativeRotation(FRotator(0, 90, 0));
 	}
+}
+
+void AGuns::PullTrigger()
+{
+	//UE_LOG(LogTemp, Warning, TEXT("You've been shot!"))
+
+	UGameplayStatics::SpawnEmitterAttached(muzzleFlash, rifleMesh, TEXT("MuzzleFlashSocket"));
 }
 
 // Called when the game starts or when spawned

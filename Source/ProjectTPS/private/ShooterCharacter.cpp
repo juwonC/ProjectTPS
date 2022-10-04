@@ -43,6 +43,8 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAxis(TEXT("Horizontal"), this, &AShooterCharacter::InputHorizontal);
 	PlayerInputComponent->BindAxis(TEXT("Vertical"), this, &AShooterCharacter::InputVertical);
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
+
+	PlayerInputComponent->BindAction(TEXT("Fire"), EInputEvent::IE_Pressed, this, &AShooterCharacter::Shoot);
 }
 
 //void AShooterCharacter::Turn(float axisValue)
@@ -73,4 +75,9 @@ void AShooterCharacter::InputHorizontal(float axisValue)
 void AShooterCharacter::InputVertical(float axisValue)
 {
 	AddMovementInput(GetActorForwardVector() * axisValue);
+}
+
+void AShooterCharacter::Shoot()
+{
+	Gun->PullTrigger();
 }
