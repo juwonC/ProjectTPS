@@ -53,7 +53,16 @@ void AGuns::PullTrigger()
 	FRotator rotation;
 	ownerController->GetPlayerViewPoint(location, rotation);
 
-	DrawDebugCamera(GetWorld(), location, rotation, 90, 2, FColor::Red, true);
+	FVector end = location + rotation.Vector() * maxRange;
+
+	//DrawDebugCamera(GetWorld(), location, rotation, 90, 2, FColor::Red, true);
+	
+	FHitResult Hit;
+	bool bSuccess = GetWorld()->LineTraceSingleByChannel(Hit, location, end, ECollisionChannel::ECC_GameTraceChannel1);
+	if (bSuccess)
+	{
+		DrawDebugPoint(GetWorld(), Hit.Location, 20, FColor::Red, true);
+	}
 }
 
 // Called when the game starts or when spawned
