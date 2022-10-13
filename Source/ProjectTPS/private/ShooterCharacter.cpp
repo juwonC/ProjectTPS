@@ -3,6 +3,8 @@
 
 #include "ShooterCharacter.h"
 #include "Guns.h"
+#include "Components/CapsuleComponent.h"
+#include "ProjectTPSGameModeBase.h"
 
 // Sets default values
 AShooterCharacter::AShooterCharacter()
@@ -67,6 +69,18 @@ float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dama
 	health -= damageToApplied;
 
 	UE_LOG(LogTemp, Display, TEXT("Health Left %f"), health);
+
+	if (IsDead())
+	{
+		AProjectTPSGameModeBase* gameMode = GetWorld()->GetAuthGameMode<AProjectTPSGameModeBase>();
+		if (gameMode != nullptr)
+		{
+			gameMode->PawnKilled(this);
+		}
+		
+		DetachFromControllerPendingDestroy();
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
 
 	return damageToApplied;
 }

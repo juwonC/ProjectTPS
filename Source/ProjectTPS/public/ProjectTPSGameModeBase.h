@@ -16,4 +16,7 @@ class PROJECTTPS_API AProjectTPSGameModeBase : public AGameModeBase
 	
 public:
 	AProjectTPSGameModeBase();
+
+public:
+	virtual void PawnKilled(APawn* pawnKilled);
 };

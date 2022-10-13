@@ -8,3 +8,8 @@ AProjectTPSGameModeBase::AProjectTPSGameModeBase()
 {
 	PRINT_LOG(TEXT("My Log : %s"), TEXT("Project TPS"));
 }
+
+void AProjectTPSGameModeBase::PawnKilled(APawn* pawnKilled)
+{
+
+}
