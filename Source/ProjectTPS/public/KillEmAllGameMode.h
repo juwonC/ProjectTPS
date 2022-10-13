@@ -16,4 +16,7 @@ class PROJECTTPS_API AKillEmAllGameMode : public AProjectTPSGameModeBase
 	
 public:
 	virtual void PawnKilled(APawn* pawnKilled) override;
+
+private:
+	void EndGame(bool bIsPlayerWinner);
 };
