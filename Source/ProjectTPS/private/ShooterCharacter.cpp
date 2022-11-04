@@ -5,6 +5,7 @@
 #include "Guns.h"
 #include "Components/CapsuleComponent.h"
 #include "ProjectTPSGameModeBase.h"
+#include "Math/UnrealMathUtility.h"
 
 // Sets default values
 AShooterCharacter::AShooterCharacter()
@@ -18,13 +19,34 @@ AShooterCharacter::AShooterCharacter()
 void AShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	health = maxHealth;
 
-	Gun = GetWorld()->SpawnActor<AGuns>(GunClass);
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
-	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
-	Gun->SetOwner(this);
+
+	activeIndex = 0;
+	UE_LOG(LogTemp, Warning, TEXT("Active Index = %d"), activeIndex);
+
+	for (int32 i = 0; i < 3; i++)
+	{
+		gun[i] = GetWorld()->SpawnActor<AGuns>(gunClass[i]);
+
+		if (gun[i])
+		{
+			gun[i]->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
+			gun[i]->SetOwner(this);
+			UE_LOG(LogTemp, Warning, TEXT("Attached Mesh Number  %d"), i);
+
+			if (i != activeIndex)
+			{
+				gun[i]->SetActorHiddenInGame(true);
+			}
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("No Gun Attached on %d"), i);
+		}
+	}
 }
 
 bool AShooterCharacter::IsDead() const
@@ -64,6 +86,8 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
 
 	PlayerInputComponent->BindAction(TEXT("Fire"), EInputEvent::IE_Pressed, this, &AShooterCharacter::Shoot);
+
+	PlayerInputComponent->BindAxis(TEXT("SwitchWeapons"), this, &AShooterCharacter::SwitchWeapons);
 }
 
 float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
@@ -120,7 +144,17 @@ void AShooterCharacter::InputVertical(float axisValue)
 	AddMovementInput(GetActorForwardVector() * axisValue);
 }
 
+void AShooterCharacter::SwitchWeapons(float slot)
+{
+	int32 slotIndex = static_cast<int32>(slot);
+
+	gun[activeIndex]->SetActorHiddenInGame(true);
+	activeIndex += slotIndex;
+	activeIndex = FMath::Clamp(activeIndex, 0, 2);
+	gun[activeIndex]->SetActorHiddenInGame(false);
+}
+
 void AShooterCharacter::Shoot()
 {
-	Gun->PullTrigger();
+	gun[activeIndex]->PullTrigger();
 }

@@ -45,6 +45,7 @@ private:
 	void LookUpRate(float axisValue);
 	void InputHorizontal(float axisValue);
 	void InputVertical(float axisValue);
+	void SwitchWeapons(float slot);
 
 	UPROPERTY(EditAnywhere)
 	float rotationRate = 10;
@@ -55,9 +56,12 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	float health;
 
+	UPROPERTY(EditAnywhere)
+	int32 activeIndex;
+
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AGuns> GunClass;
+	TSubclassOf<AGuns> gunClass[3];
 
 	UPROPERTY()
-	AGuns* Gun;
+	AGuns* gun[3];
 };
