@@ -16,6 +16,8 @@ public:
 	AGuns();
 
 	void PullTrigger();
+	int32 SetAmmo(int32 reload);
+	int32 GetAmmo();
 
 protected:
 	// Called when the game starts or when spawned
@@ -49,6 +51,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float damage = 10;
+
+	UPROPERTY(EditAnywhere)
+	int32 ammo = 10;
 
 	bool GunTrace(FHitResult& hit, FVector& shotDirection);
 

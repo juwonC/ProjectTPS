@@ -28,6 +28,9 @@ public:
 	UFUNCTION(BlueprintPure)
 	float GetHealthPercent() const;
 
+	UFUNCTION(BlueprintPure)
+	int32 GetAmmo() const;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -37,6 +40,7 @@ public:
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 	
 	void Shoot();
+	void OnReload();
 
 private:
 	//void Turn(float axisValue);
@@ -52,6 +56,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	float maxHealth = 100;
+
+	UPROPERTY(EditDefaultsOnly)
+	int32 maxAmmo = 50;
 
 	UPROPERTY(VisibleAnywhere)
 	float health;

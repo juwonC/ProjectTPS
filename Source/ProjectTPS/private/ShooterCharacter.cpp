@@ -64,6 +64,11 @@ float AShooterCharacter::GetHealthPercent() const
 	return health / maxHealth;
 }
 
+int32 AShooterCharacter::GetAmmo() const
+{
+	return gun[activeIndex]->GetAmmo();
+}
+
 // Called every frame
 void AShooterCharacter::Tick(float DeltaTime)
 {
@@ -86,6 +91,7 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
 
 	PlayerInputComponent->BindAction(TEXT("Fire"), EInputEvent::IE_Pressed, this, &AShooterCharacter::Shoot);
+	PlayerInputComponent->BindAction(TEXT("Reload"), EInputEvent::IE_Pressed, this, &AShooterCharacter::OnReload);
 
 	PlayerInputComponent->BindAxis(TEXT("SwitchWeapons"), this, &AShooterCharacter::SwitchWeapons);
 }
@@ -157,4 +163,9 @@ void AShooterCharacter::SwitchWeapons(float slot)
 void AShooterCharacter::Shoot()
 {
 	gun[activeIndex]->PullTrigger();
+}
+
+void AShooterCharacter::OnReload()
+{
+	gun[activeIndex]->SetAmmo(10);
 }

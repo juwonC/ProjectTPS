@@ -35,6 +35,11 @@ void AGuns::PullTrigger()
 {
 	//UE_LOG(LogTemp, Warning, TEXT("You've been shot!"))
 
+	if (ammo <= 0)
+	{
+		return;
+	}
+
 	UGameplayStatics::SpawnEmitterAttached(muzzleFlash, rifleMesh, TEXT("MuzzleFlashSocket"));
 	UGameplayStatics::SpawnSoundAttached(muzzleSound, rifleMesh, TEXT("MuzzleFlashSocket"));
 
@@ -48,7 +53,7 @@ void AGuns::PullTrigger()
 		//DrawDebugPoint(GetWorld(), Hit.Location, 20, FColor::Red, true);
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), impactEffect, hit.Location, shotDirection.Rotation());
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), impactSound, hit.Location);
-		
+
 		AActor* hitActor = hit.GetActor();
 		if (hitActor != nullptr)
 		{
@@ -57,6 +62,20 @@ void AGuns::PullTrigger()
 			hitActor->TakeDamage(damage, damageEvent, ownerController, this);
 		}
 	}
+
+	ammo--;
+}
+
+int32 AGuns::SetAmmo(int32 reload)
+{
+	ammo = reload;
+	
+	return ammo;
+}
+
+int32 AGuns::GetAmmo()
+{
+	return ammo;
 }
 
 // Called when the game starts or when spawned
