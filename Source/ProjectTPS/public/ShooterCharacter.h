@@ -31,6 +31,9 @@ public:
 	UFUNCTION(BlueprintPure)
 	int32 GetAmmo() const;
 
+	UFUNCTION(BlueprintPure)
+	int32 GetMaxAmmo() const;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

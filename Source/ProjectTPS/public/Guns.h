@@ -53,7 +53,7 @@ private:
 	float damage = 10;
 
 	UPROPERTY(EditAnywhere)
-	int32 ammo = 10;
+	int32 ammo;
 
 	bool GunTrace(FHitResult& hit, FVector& shotDirection);
 

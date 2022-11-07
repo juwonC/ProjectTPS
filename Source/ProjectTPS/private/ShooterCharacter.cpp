@@ -69,6 +69,11 @@ int32 AShooterCharacter::GetAmmo() const
 	return gun[activeIndex]->GetAmmo();
 }
 
+int32 AShooterCharacter::GetMaxAmmo() const
+{
+	return maxAmmo;
+}
+
 // Called every frame
 void AShooterCharacter::Tick(float DeltaTime)
 {
@@ -167,5 +172,19 @@ void AShooterCharacter::Shoot()
 
 void AShooterCharacter::OnReload()
 {
-	gun[activeIndex]->SetAmmo(10);
+	if (maxAmmo <= 0 || GetAmmo() >= 20)
+	{
+		return;
+	}
+	
+	if (maxAmmo < 20 - GetAmmo())
+	{
+		gun[activeIndex]->SetAmmo(GetAmmo() + maxAmmo);
+		maxAmmo = 0;
+	}
+	else
+	{
+		maxAmmo = maxAmmo - (20 - GetAmmo());
+		gun[activeIndex]->SetAmmo(20);
+	}
 }
