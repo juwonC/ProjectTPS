@@ -74,4 +74,7 @@ private:
 
 	UPROPERTY()
 	AGuns* gun[3];
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* reloadSound;
 };

@@ -47,13 +47,16 @@ private:
 	USoundBase* impactSound;
 
 	UPROPERTY(EditAnywhere)
+	USoundBase* dryFire;
+
+	UPROPERTY(EditAnywhere)
 	float maxRange = 1000;
 
 	UPROPERTY(EditAnywhere)
 	float damage = 10;
 
 	UPROPERTY(EditAnywhere)
-	int32 ammo;
+	int32 ammo = 20;
 
 	bool GunTrace(FHitResult& hit, FVector& shotDirection);
 

@@ -37,6 +37,7 @@ void AGuns::PullTrigger()
 
 	if (ammo <= 0)
 	{
+		UGameplayStatics::PlaySound2D(GetWorld(), dryFire);
 		return;
 	}
 

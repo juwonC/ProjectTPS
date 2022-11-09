@@ -6,6 +6,7 @@
 #include "Components/CapsuleComponent.h"
 #include "ProjectTPSGameModeBase.h"
 #include "Math/UnrealMathUtility.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AShooterCharacter::AShooterCharacter()
@@ -187,4 +188,6 @@ void AShooterCharacter::OnReload()
 		maxAmmo = maxAmmo - (20 - GetAmmo());
 		gun[activeIndex]->SetAmmo(20);
 	}
+
+	UGameplayStatics::PlaySound2D(GetWorld(), reloadSound);
 }
